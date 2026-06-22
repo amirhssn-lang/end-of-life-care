@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-ᴇɴᴅ ᴏꜰ ʟɪꜰᴇ ᴄᴀʀᴇ-</title>
+    
+    <!-- Tailwind CSS (طراحی مینیمال) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- فونت‌های گوگل: امیر (برای متون ادبی) و وزیرمتن (برای خوانایی عمومی) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Vazirmatn:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           متغیرهای رنگی تم (رفع قطعی مشکل تاریک ماندن تم لایت)
+        ========================================= */
+        :root {
+            --bg-color: #fbfaf6;       /* رنگ روشن: کاغذ استخوانی بسیار لطیف */
+            --text-color: #1a1a1a;     /* جوهر تیره */
+            --surface-color: #f0eee5;  /* پس‌زمینه‌ی کادرها */
+            --border-color: #e2dfd5;   /* خطوط ظریف */
+            --accent-red: #b01b2e;     /* قرمزِ شکوفه تیره */
+            --text-muted: #6b6b6b;     /* متن کم‌رنگ */
+        }
+
+        /* کلاس dark روی تگ html این متغیرها را فعال می‌کند */
+        :root.dark {
+            --bg-color: #0a0a0a;       /* تاریکی عمیق */
+            --text-color: #f5f5f5;     /* سفید ملایم */
+            --surface-color: #141414;  /* سطوح تاریک */
+            --border-color: #262626;   /* خطوط محو */
+            --accent-red: #e11d48;     /* قرمز زنده */
+            --text-muted: #888888;
+        }
+
+        /* =========================================
+           استایل‌های پایه و ترانزیشن‌های نرم
+        ========================================= */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.8s ease, color 0.8s ease;
+            font-family: 'Vazirmatn', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .surface-box {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.8s ease, border-color 0.8s ease;
+        }
+
+        .border-line {
+            border-color: var(--border-color);
+            transition: border-color 0.8s ease;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+            transition: color 0.8s ease;
+        }
+
+        .font-literary { font-family: 'Amiri', serif; }
+        .font-mono-custom { font-family: 'Courier New', Courier, monospace; }
+
+        /* تایپوگرافیِ نفس‌کشیدن برای لوگو */
+        @keyframes typographyPulse {
+            0%, 100% { opacity: 0.8; letter-spacing: 0.18em; }
+            50% { opacity: 1; letter-spacing: 0.22em; }
+        }
+        .logo-text {
+            animation: typographyPulse 6s ease-in-out infinite;
+        }
+
+        /* =========================================
+           تنظیمات تب‌ها
+        ========================================= */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* =========================================
+           انیمیشن‌های سبک و ادبی
+        ========================================= */
+        /* افکت سوختن و محو شدن کلمات (نامه‌ای به هیچ‌کس) */
+        .dissolve-text {
+            animation: dissolveAnim 2.5s forwards cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes dissolveAnim {
+            0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+            50% { opacity: 0.6; transform: translateY(-15px) scale(1.02); filter: blur(2px); }
+            100% { opacity: 0; transform: translateY(-30px) scale(1.05); filter: blur(5px); display: none; }
+        }
+
+        /* افکت ظاهر شدن پژواک ۵۲ هرتز */
+        .fade-in-up {
+            animation: fadeInUp 1.5s forwards ease-out;
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تپش ظریف نقطه‌های گاه‌شمار */
+        .timeline-dot {
+            box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.3);
+            animation: pulseDot 2.5s infinite;
+        }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.3); }
+            70% { box-shadow: 0 0 0 8px rgba(225, 29, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-[#e11d48] selection:text-white">
+
+    <!-- پلیر صوتی مخفی (صرفاً برای Music.mp3 محلی) -->
+    <audio id="main-audio" src="Music.mp3" preload="none"></audio>
+
+    <!-- Header Section -->
+    <header class="w-full max-w-3xl mx-auto px-6 pt-16 pb-6 relative z-50">
+        <div class="flex justify-between items-center mb-12">
+            
+            <!-- دکمه تغییر تم -->
+            <button id="theme-toggle" class="p-3 rounded-full surface-box text-muted hover:text-[var(--text-color)] focus:outline-none transition-transform hover:scale-105" aria-label="تغییر تم">
+                <svg id="icon-moon" class="hidden w-5 h-5 transition-transform duration-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                </svg>
+                <svg id="icon-sun" class="hidden w-5 h-5 transition-transform duration-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m0 13.5V21M4.95 4.95l1.59 1.59m10.91 10.91l1.59 1.59M3 12h2.25m13.5 0H21M4.95 19.05l1.59-1.59m10.91-10.91l1.59-1.59M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" />
+                </svg>
+            </button>
+
+            <!-- لوگوی تایپوگرافی -->
+            <div class="text-center">
+                <a href="#" onclick="switchTab('tab-threshold'); return false;" class="logo-text font-mono-custom text-sm md:text-lg font-bold tracking-[0.18em] select-none text-[var(--text-color)]">
+                    -ᴇɴᴅ ᴏꜰ ʟɪꜰᴇ ᴄᴀʀᴇ-
+                </a>
+            </div>
+            
+            <div class="w-12 h-12"></div> <!-- فاصله برای تقارن -->
+        </div>
+
+        <!-- منوی تب‌ها -->
+        <nav class="flex justify-center border-b border-line pb-1">
+            <div class="flex space-x-reverse space-x-5 md:space-x-8 overflow-x-auto no-scrollbar py-2 text-[13px] md:text-sm font-light">
+                <button onclick="switchTab('tab-threshold')" id="btn-tab-threshold" class="tab-btn pb-2 border-b-2 border-transparent text-muted hover:text-[var(--text-color)] transition-all">آستانه</button>
+                <button onclick="switchTab('tab-whale')" id="btn-tab-whale" class="tab-btn pb-2 border-b-2 border-transparent text-muted hover:text-[var(--text-color)] transition-all">۵۲ هرتز</button>
+                <button onclick="switchTab('tab-music')" id="btn-tab-music" class="tab-btn pb-2 border-b-2 border-transparent text-muted hover:text-[var(--text-color)] transition-all">موسیقیِ متن</button>
+                <button onclick="switchTab('tab-letters')" id="btn-tab-letters" class="tab-btn pb-2 border-b-2 border-transparent text-muted hover:text-[var(--text-color)] transition-all">نامه‌ای به هیچ‌کس</button>
+                <button onclick="switchTab('tab-savemessage')" id="btn-tab-savemessage" class="tab-btn pb-2 border-b-2 border-transparent text-muted hover:text-[var(--text-color)] transition-all">سیو مسیج</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- بدنه اصلی سایت -->
+    <main class="flex-grow w-full max-w-3xl mx-auto px-6 py-6 relative z-20">
+
+        <!-- ================= TAB 1: Threshold ================= -->
+        <section id="tab-threshold" class="tab-content active">
+            <div class="text-center py-4 leading-[2.4]">
+                <h2 class="text-lg md:text-xl font-light tracking-widest text-muted mb-10">آستانه‌یِ ادراک</h2>
+                
+                <p class="font-light text-sm md:text-base text-muted max-w-lg mx-auto leading-relaxed mb-10">
+                    اینجا یک فضای شخصیِ پابلیک است؛ شبیه به یک <strong class="font-normal text-[var(--text-color)]">سیو مسیج</strong> خصوصی که به مصلحتِ دل پابلیک شده است. پناهگاهی عاری از شتاب، تهی از هیاهویِ بازاریابی و تجارت.
+                </p>
+
+                <div class="w-8 h-[1px] surface-box border-t border-line mx-auto my-10"></div>
+                
+                <div class="font-literary text-[var(--text-color)] opacity-90 text-[15px] md:text-[17px] leading-[2.6]">
+                    <p>برای پزشکان، این واژه یک اصطلاح سنگینِ پزشکی است؛</p>
+                    <p>یادآورِ مرزی است که انسان، با تمام ناتوانی‌اش، هنوز زنده است.</p>
+                    <p>جایی که برای پزشکان، دیگر نبردِ اصلی، نبرد با بیماری نیست؛</p>
+                    <p>نبرد برای بهترین لحظاتِ باقی‌مانده است.</p>
+                    <p>درمان، به مراقبت بدل می‌شود،</p>
+                    <p>و میدان جنگ، به آرامگاهی محترم...!</p>
+                    <p class="mt-6">نامی است برآمده از تالارهای بسته‌ی پزشکی؛</p>
+                    <p>لحظه‌ای که نبضِ هستی، بر لبه‌ی تیغ می‌رقصد…</p>
+                    <p>لحظه‌ی درکِ این حقیقت است که بالاترین سطحِ مراقبت،</p>
+                    <p>دیگر تنها «تلاش برای زنده ماندن» نیست،</p>
+                    <p>بلکه «تضمینِ آرامش و سلوکِ آدمی» در واپسین لحظاتِ زندگی است.</p>
+                    <p class="mt-6">ورای این اصطلاح، برای من معنای احترام به هر نَفَسِ انسانی‌ست؛</p>
+                    <p>جایی که هر ثانیه، وزنِ ابدیت را می‌نوشد.</p>
+                </div>
+                
+                <div class="w-8 h-[1px] surface-box border-t border-line mx-auto my-10"></div>
+                <p class="opacity-70 italic font-literary text-sm md:text-base">مختصاتی که در آن، سکوتِ میانِ دو ضربان، بیش از پیش اهمیت می‌یابد…</p>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: 52 Hertz (بدون گرافیک سنگین) ================= -->
+        <section id="tab-whale" class="tab-content">
+            <div class="text-center py-8">
+                <h2 class="text-lg md:text-xl font-light tracking-widest text-muted mb-10">پژواک در خلأ</h2>
+                
+                <div class="mb-14 max-w-lg mx-auto">
+                    <p class="text-xl font-light mb-6 text-[var(--accent-red)]">«۵۲ هرتز»</p>
+                    <p class="leading-[2.2] text-sm md:text-base text-justify-custom text-center opacity-90">
+                        فرکانسِ تنهاترین نهنگ جهان. او سال‌هاست در عمق اقیانوس می‌خواند، اما چون طول موج صدایش با هیچ نهنگ دیگری در جهان هم‌خوان نیست، هیچ‌کس هرگز پاسخی به او نمی‌دهد. او نمادِ آواز خواندن در اوج تنهایی است.
+                    </p>
+                </div>
+
+                <!-- تعامل متنی سبک -->
+                <div class="mt-16 flex flex-col items-center min-h-[160px]">
+                    <button onclick="sendWhaleFrequency()" class="px-8 py-3 rounded-full border border-line text-muted hover:border-[var(--accent-red)] hover:text-[var(--accent-red)] transition-all duration-500 tracking-wider text-sm focus:outline-none">
+                        فرکانس را ارسال کن...
+                    </button>
+                    
+                    <div id="whale-echo-container" class="mt-12 font-literary italic opacity-85 text-[var(--text-color)] text-sm md:text-base transition-all">
+                        <!-- پژواک‌ها در اینجا ظاهر می‌شوند -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: Music Player ================= -->
+        <section id="tab-music" class="tab-content">
+            <div class="text-center py-8 flex flex-col items-center">
+                <h2 class="text-lg md:text-xl font-light tracking-widest text-muted mb-12">موسیقیِ متنِ این خلوتگاه</h2>
+
+                <div class="w-full max-w-sm py-12 px-8 rounded-3xl surface-box flex flex-col items-center relative overflow-hidden shadow-sm">
+                    
+                    <div class="mb-10 text-center z-10">
+                        <h3 class="font-mono-custom font-bold text-[16px] md:text-lg tracking-widest mb-3">Theme From Schindler's List</h3>
+                        <p class="text-[13px] tracking-widest text-muted">John Williams</p>
+                    </div>
+
+                    <!-- دکمه پخش مینیمال -->
+                    <button id="play-pause-btn" class="w-16 h-16 rounded-full flex items-center justify-center bg-[var(--text-color)] text-[var(--bg-color)] hover:scale-105 hover:bg-[var(--accent-red)] hover:text-white transition-all duration-500 shadow-xl z-10 focus:outline-none">
+                        <svg id="icon-play" class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="icon-pause" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    
+                    <!-- خط پیشرفت بسیار ظریف -->
+                    <div class="w-full h-[2px] bg-[var(--border-color)] mt-12 rounded-full overflow-hidden z-10">
+                        <div id="audio-progress" class="h-full bg-[var(--accent-red)] w-0 transition-all duration-200 ease-linear"></div>
+                    </div>
+                </div>
+
+                <p class="mt-14 text-sm italic font-literary opacity-60 max-w-sm text-center">
+                    « موسیقی، فاصله‌ی میان سکوت و ابدیت را پر می‌کند... »
+                </p>
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: Letters to No One ================= -->
+        <section id="tab-letters" class="tab-content">
+            <div class="text-center py-6">
+                <h2 class="text-lg md:text-xl font-light tracking-widest text-muted mb-6">نامه‌ای به هیچ‌کس</h2>
+                <p class="text-xs md:text-sm font-light text-muted mb-10 max-w-sm mx-auto leading-relaxed">
+                    حرف‌هایی که نه توان گفتنشان هست و نه طاقت پنهان کردنشان. بنویس و به باد بسپار. کلمات در این خلأ حل خواهند شد...
+                </p>
+
+                <div class="max-w-md mx-auto relative">
+                    <textarea id="letter-input" rows="6" placeholder="درد دلت را اینجا بگذار..." 
+                        class="w-full bg-transparent surface-box rounded-2xl p-6 text-sm md:text-base focus:outline-none focus:border-[var(--accent-red)] transition-all resize-none font-literary leading-[2.2] text-[var(--text-color)] shadow-sm"></textarea>
+                    
+                    <div class="mt-8 text-center">
+                        <button onclick="sendToWind()" class="px-8 py-3 rounded-full border border-line text-muted hover:bg-[var(--text-color)] hover:text-[var(--bg-color)] hover:border-transparent transition-all duration-500 text-sm tracking-wide focus:outline-none">
+                            سپردن به باد
+                        </button>
+                    </div>
+
+                    <!-- المان روح برای افکت محو شدن -->
+                    <div id="ghost-letter" class="absolute top-6 right-6 left-6 text-right font-literary text-sm md:text-base leading-[2.2] pointer-events-none hidden text-[var(--text-color)]">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 5: Save Message ================= -->
+        <section id="tab-savemessage" class="tab-content">
+            <h2 class="text-lg md:text-xl font-light text-center tracking-widest text-muted mb-8">صندوقچه سیو مسیج</h2>
+            
+            <div class="max-w-md mx-auto surface-box rounded-2xl p-5 flex flex-col h-[420px] shadow-sm">
+                
+                <!-- محتوای پیام‌ها -->
+                <div id="save-msg-feed" class="flex-grow overflow-y-auto space-y-4 p-2 no-scrollbar scroll-smooth">
+                    
+                    <div class="flex flex-col items-start max-w-[85%] text-right bg-black/5 dark:bg-white/5 p-4 rounded-2xl rounded-tr-none border border-line">
+                        <span class="text-[10px] text-muted mb-2 tracking-wide font-sans">سیستم - ۱۳:۴۰</span>
+                        <p class="font-literary text-[15px] leading-relaxed opacity-90">به قول فروغ: «باید با تمام وجود اعتراف کرد که پرنده فقط یک پرنده است...»</p>
+                    </div>
+
+                </div>
+
+                <!-- ورودی پیام -->
+                <div class="border-t border-line pt-4 mt-2 flex gap-3">
+                    <input type="text" id="save-msg-input" placeholder="یادگاری کوچکی بگذار..." 
+                           class="flex-grow bg-transparent border border-line rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[var(--text-color)] transition-all" />
+                    <button onclick="sendSaveMessage()" class="p-3 bg-[var(--text-color)] text-[var(--bg-color)] rounded-xl hover:bg-[var(--accent-red)] hover:text-white transition-colors duration-300 focus:outline-none">
+                        <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= Footer & Chronicle of Shadows ================= -->
+    <footer class="w-full mt-auto pt-20 pb-10 px-6 flex flex-col items-center border-t border-line surface-box relative">
+        
+        <!-- گاه‌شمار سایه‌ها -->
+        <div class="w-full max-w-lg mb-20 relative before:absolute before:inset-0 before:ml-[50%] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-[1px] before:bg-gradient-to-b before:from-transparent before:via-[var(--border-color)] before:to-transparent">
+            
+            <div class="text-center mb-12 relative z-10 bg-[var(--surface-color)] inline-block px-4 mx-auto left-1/2 -translate-x-1/2">
+                <span class="text-xs tracking-widest text-muted">گاه‌شمار سایه‌ها</span>
+            </div>
+
+            <!-- آیتم اول -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-10">
+                <div class="w-3 h-3 rounded-full bg-[var(--surface-color)] border-[2px] border-[var(--accent-red)] absolute left-1/2 -translate-x-1/2 timeline-dot z-10"></div>
+                <div class="w-[45%] text-left pr-4 md:text-right md:pl-0 md:pr-10">
+                    <p class="font-literary text-[14px] md:text-[15px] opacity-85 leading-[2.2]">« من پشیمان نیستم...<br>من به این تسلیم می‌اندیشم، این تسلیم دردآلود. »</p>
+                    <span class="text-[11px] text-muted block mt-3 font-light">- فروغ فرخزاد</span>
+                </div>
+            </div>
+
+            <!-- آیتم دوم -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-10">
+                <div class="w-3 h-3 rounded-full bg-[var(--surface-color)] border-[2px] border-[var(--text-muted)] absolute left-1/2 -translate-x-1/2 z-10"></div>
+                <div class="w-[45%] text-right pl-4 md:text-left md:pr-0 md:pl-10">
+                    <p class="font-literary text-[14px] md:text-[15px] opacity-85 leading-[2.2]">« نشود فاش کسی آنچه میان من و توست...<br>تا اشارات نظر نامه‌رسان من و توست. »</p>
+                    <span class="text-[11px] text-muted block mt-3 font-light">- هوشنگ ابتهاج (سایه)</span>
+                </div>
+            </div>
+
+            <!-- آیتم سوم -->
+            <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                <div class="w-3 h-3 rounded-full bg-[var(--surface-color)] border-[2px] border-[var(--text-muted)] absolute left-1/2 -translate-x-1/2 z-10"></div>
+                <div class="w-[45%] text-left pr-4 md:text-right md:pl-0 md:pr-10">
+                    <p class="font-literary text-[14px] md:text-[15px] opacity-85 leading-[2.2]">« ببین شکوفه‌ها رو، سرما پکوند و در رفت... »</p>
+                    <span class="text-[11px] text-muted block mt-3 font-light">- بمرانی</span>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-[13px] text-muted mb-8 text-center leading-[2.2] font-light">
+            این واژه‌ها، مأمنی برای سکوت و کلمات‌اند...<br>
+            خلق‌شده در خلوتِ رازآلودِ <span class="font-literary mx-1 font-bold text-[var(--text-color)] text-[15px]">مهدا</span> — تابستانِ ۱۴۰۵
+        </p>
+        
+        <a href="https://t.me/EndOfLifeCare" target="_blank" rel="noopener noreferrer" 
+           class="group flex items-center gap-2 px-6 py-2.5 rounded-full border border-line hover:border-[var(--text-color)] transition-all bg-black/5 dark:bg-white/5">
+            <span class="font-mono-custom text-[12px] tracking-[0.15em] text-muted group-hover:text-[var(--text-color)] transition-colors">EndOfLifeCare</span>
+        </a>
+    </footer>
+
+    <!-- ================= JavaScript ================= -->
+    <script>
+        // 1. منطق پایدار تم روشن و تاریک
+        const themeBtn = document.getElementById('theme-toggle');
+        const iconMoon = document.getElementById('icon-moon');
+        const iconSun = document.getElementById('icon-sun');
+        const root = document.documentElement;
+
+        function updateThemeIcon() {
+            if (root.classList.contains('dark')) {
+                iconSun.classList.remove('hidden');
+                iconMoon.classList.add('hidden');
+            } else {
+                iconSun.classList.add('hidden');
+                iconMoon.classList.remove('hidden');
+            }
+        }
+
+        // خواندن وضعیت قبلی از حافظه مرورگر، پیش‌فرض روی تاریک
+        if (localStorage.getItem('theme') === 'light') {
+            root.classList.remove('dark');
+        } else {
+            root.classList.add('dark');
+        }
+        updateThemeIcon();
+
+        themeBtn.addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+            updateThemeIcon();
+        });
+
+
+        // 2. مدیریت تب‌ها
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-[var(--text-color)]', 'border-[var(--accent-red)]');
+                btn.classList.add('text-muted', 'border-transparent');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-muted', 'border-transparent');
+            activeBtn.classList.add('text-[var(--text-color)]', 'border-[var(--accent-red)]');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        document.addEventListener("DOMContentLoaded", () => switchTab('tab-threshold'));
+
+
+        // 3. پلیر اختصاصی موسیقی متن
+        const audio = document.getElementById('main-audio');
+        const playBtn = document.getElementById('play-pause-btn');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const progressBar = document.getElementById('audio-progress');
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(e => {
+                    console.log("لطفا مطمئن شوید فایل Music.mp3 در پوشه موجود است.");
+                });
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+            } else {
+                audio.pause();
+                iconPause.classList.add('hidden');
+                iconPlay.classList.remove('hidden');
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if(audio.duration) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = progress + '%';
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            iconPause.classList.add('hidden');
+            iconPlay.classList.remove('hidden');
+            progressBar.style.width = '0%';
+        });
+
+
+        // 4. پژواک‌های تصادفی نهنگ (بسیار سبک)
+        const echoes = [
+            "فرکانس شما در عمق ۴۰۰۰ متری گم شد...",
+            "هیچ نهنگ دیگری در این طول موج پاسخ نداد.",
+            "پیام در بی‌نهایتِ تاریکِ آب غرق شد.",
+            "تنها پژواکِ صدای خودت بازگشت...",
+            "اقیانوس برای این میزان از تنهایی، جوابی نداشت.",
+            "سکوت... مطلق و بی‌پایان."
+        ];
+        
+        function sendWhaleFrequency() {
+            const container = document.getElementById('whale-echo-container');
+            const randomEcho = echoes[Math.floor(Math.random() * echoes.length)];
+            
+            const p = document.createElement('p');
+            p.className = "fade-in-up mt-2";
+            p.innerText = randomEcho;
+            
+            container.innerHTML = '';
+            container.appendChild(p);
+        }
+
+
+        // 5. نامه‌ای به هیچ‌کس (افکت سوختن در باد)
+        function sendToWind() {
+            const textarea = document.getElementById('letter-input');
+            const ghost = document.getElementById('ghost-letter');
+            const text = textarea.value.trim();
+
+            if (!text) return; 
+
+            // قرار دادن متن روی کپی سایه
+            ghost.innerText = text;
+            ghost.classList.remove('hidden');
+            ghost.classList.remove('dissolve-text');
+            
+            textarea.value = '';
+            
+            // راه‌اندازی مجدد انیمیشن CSS
+            void ghost.offsetWidth;
+            
+            ghost.classList.add('dissolve-text');
+
+            // پنهان کردن بعد از پایان انیمیشن
+            setTimeout(() => {
+                ghost.classList.add('hidden');
+                ghost.classList.remove('dissolve-text');
+            }, 2500);
+        }
+
+
+        // 6. صندوقچه سیو مسیج
+        function sendSaveMessage() {
+            const input = document.getElementById('save-msg-input');
+            const feed = document.getElementById('save-msg-feed');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const time = new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+            const bubble = document.createElement('div');
+            
+            bubble.className = "flex flex-col items-start max-w-[85%] text-right surface-box border border-line p-4 rounded-2xl rounded-tr-none self-end mr-auto fade-in-up";
+            bubble.innerHTML = `
+                <span class="text-[10px] text-[var(--accent-red)] mb-2 font-sans opacity-90 tracking-wide">امروز - ${time}</span>
+                <p class="font-literary text-[15px] text-[var(--text-color)] leading-relaxed">${text}</p>
+            `;
+
+            feed.appendChild(bubble);
+            input.value = "";
+            
+            setTimeout(() => feed.scrollTop = feed.scrollHeight, 100);
+        }
+
+        document.getElementById('save-msg-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendSaveMessage();
+        });
+    </script>
+</body>
+</html>
